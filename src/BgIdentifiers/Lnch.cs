@@ -32,5 +32,22 @@ public static class Lnch
     /// <inheritdoc cref="IsValid(ReadOnlySpan{char})"/>
     public static bool IsValid([NotNullWhen(true)] string? lnch) => lnch is not null && IsValid(lnch.AsSpan());
 
+    /// <summary>
+    /// Generates a random, valid LNCh. Intended for test data.
+    /// </summary>
+    /// <param name="random">The random number generator to use, or <see langword="null"/> for <see cref="Random.Shared"/>.
+    /// Pass a seeded instance for reproducible output.</param>
+    /// <returns>A valid 10-digit LNCh.</returns>
+    public static string Generate(Random? random = null)
+    {
+        random ??= Random.Shared;
+
+        Span<char> lnch = stackalloc char[Length];
+        Digits.FillRandom(lnch[..9], random);
+        lnch[9] = Digits.ToChar(CalculateCheckDigit(lnch));
+
+        return new string(lnch);
+    }
+
     private static int CalculateCheckDigit(ReadOnlySpan<char> lnch) => Digits.WeightedSum(lnch, Weights) % 10;
 }

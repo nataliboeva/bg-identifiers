@@ -55,6 +55,44 @@ public static class Eik
     /// <inheritdoc cref="IsValid(ReadOnlySpan{char})"/>
     public static bool IsValid([NotNullWhen(true)] string? eik) => eik is not null && IsValid(eik.AsSpan());
 
+    /// <summary>
+    /// Generates a random, valid 9-digit EIK. Intended for test data.
+    /// </summary>
+    /// <param name="random">The random number generator to use, or <see langword="null"/> for <see cref="Random.Shared"/>.
+    /// Pass a seeded instance for reproducible output.</param>
+    /// <returns>A valid 9-digit EIK.</returns>
+    public static string Generate(Random? random = null)
+    {
+        Span<char> eik = stackalloc char[Length];
+        FillRandomEik(eik, random ?? Random.Shared);
+        return new string(eik);
+    }
+
+    /// <summary>
+    /// Generates a random, valid 13-digit EIK of a branch, including a valid 9-digit parent code.
+    /// Intended for test data.
+    /// </summary>
+    /// <param name="random">The random number generator to use, or <see langword="null"/> for <see cref="Random.Shared"/>.
+    /// Pass a seeded instance for reproducible output.</param>
+    /// <returns>A valid 13-digit EIK.</returns>
+    public static string GenerateBranch(Random? random = null)
+    {
+        random ??= Random.Shared;
+
+        Span<char> eik = stackalloc char[BranchLength];
+        FillRandomEik(eik[..Length], random);
+        Digits.FillRandom(eik.Slice(9, 3), random);
+        eik[12] = Digits.ToChar(CalculateCheckDigit(eik.Slice(8, 4), BranchWeights, BranchFallbackWeights));
+
+        return new string(eik);
+    }
+
+    private static void FillRandomEik(Span<char> eik, Random random)
+    {
+        Digits.FillRandom(eik[..8], random);
+        eik[8] = Digits.ToChar(CalculateCheckDigit(eik[..8], Weights, FallbackWeights));
+    }
+
     private static int CalculateCheckDigit(ReadOnlySpan<char> digits, ReadOnlySpan<int> weights, ReadOnlySpan<int> fallbackWeights)
     {
         var remainder = Digits.WeightedSum(digits, weights) % 11;

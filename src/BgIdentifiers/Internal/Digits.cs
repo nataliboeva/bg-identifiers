@@ -24,4 +24,20 @@ internal static class Digits
 
         return sum;
     }
+
+    public static char ToChar(int digit) => (char)('0' + digit);
+
+    public static void WriteTwoDigits(Span<char> destination, int start, int value)
+    {
+        destination[start] = ToChar(value / 10);
+        destination[start + 1] = ToChar(value % 10);
+    }
+
+    public static void FillRandom(Span<char> destination, Random random)
+    {
+        for (var i = 0; i < destination.Length; i++)
+        {
+            destination[i] = ToChar(random.Next(10));
+        }
+    }
 }

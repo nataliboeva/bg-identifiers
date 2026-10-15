@@ -37,6 +37,36 @@ public static class BgIban
     /// <inheritdoc cref="IsValid(ReadOnlySpan{char})"/>
     public static bool IsValid([NotNullWhen(true)] string? iban) => iban is not null && IsValid(iban.AsSpan());
 
+    /// <summary>
+    /// Generates a random, structurally valid Bulgarian IBAN with correct check digits.
+    /// The bank code is four random letters, so the result does not belong to a real bank or account.
+    /// Intended for test data.
+    /// </summary>
+    /// <param name="random">The random number generator to use, or <see langword="null"/> for <see cref="Random.Shared"/>.
+    /// Pass a seeded instance for reproducible output.</param>
+    /// <returns>A valid 22-character IBAN in electronic format.</returns>
+    public static string Generate(Random? random = null)
+    {
+        random ??= Random.Shared;
+
+        Span<char> iban = stackalloc char[Length];
+        CountryCode.AsSpan().CopyTo(iban);
+        iban[2] = '0';
+        iban[3] = '0';
+
+        for (var i = 4; i < 8; i++)
+        {
+            iban[i] = (char)('A' + random.Next(26));
+        }
+
+        Digits.FillRandom(iban[8..], random);
+
+        // With "00" as placeholder check digits, 98 - (value mod 97) gives the real ones.
+        Digits.WriteTwoDigits(iban, 2, 98 - CalculateMod97(iban));
+
+        return new string(iban);
+    }
+
     // BBAN format from the SWIFT IBAN registry: 4!a 4!n 2!n 8!c
     private static bool HasValidStructure(ReadOnlySpan<char> iban) =>
         Digits.AreAll(iban.Slice(2, 2))
