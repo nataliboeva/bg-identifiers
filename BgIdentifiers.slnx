@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/bench/">
+    <Project Path="bench/BgIdentifiers.Benchmarks/BgIdentifiers.Benchmarks.csproj" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/BgIdentifiers.FluentValidation/BgIdentifiers.FluentValidation.csproj" />
     <Project Path="src/BgIdentifiers/BgIdentifiers.csproj" />
