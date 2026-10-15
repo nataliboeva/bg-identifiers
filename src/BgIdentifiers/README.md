@@ -19,8 +19,7 @@ bool ok = Egn.IsValid("8032056031");          // true
 
 if (Egn.TryParse("0847038794", out EgnInfo info))
 {
-    Console.WriteLine(info.BirthDate);          // 03.07.2008
-    Console.WriteLine(info.Gender);             // Female
+    Console.WriteLine($"{info.BirthDate:yyyy-MM-dd} {info.Gender}");   // 2008-07-03 Female
 }
 
 Eik.IsValid("175074752");                       // true
