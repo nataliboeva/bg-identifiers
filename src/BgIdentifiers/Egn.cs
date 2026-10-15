@@ -130,16 +130,16 @@ public static class Egn
     {
         birthDate = default;
 
-        var year = Digits.TwoDigitNumber(egn, 0);
+        var yearOfCentury = Digits.TwoDigitNumber(egn, 0);
         var encodedMonth = Digits.TwoDigitNumber(egn, 2);
         var day = Digits.TwoDigitNumber(egn, 4);
 
-        (int century, int month) = encodedMonth switch
+        var (century, month) = encodedMonth switch
         {
             >= 1 and <= 12 => (1900, encodedMonth),
             >= 21 and <= 32 => (1800, encodedMonth - 20),
             >= 41 and <= 52 => (2000, encodedMonth - 40),
-            _ => (0, 0),
+            _ => (0, 0), // 00, 13-20, 33-40 and 53-99 are not valid months
         };
 
         if (month == 0)
@@ -147,7 +147,7 @@ public static class Egn
             return false;
         }
 
-        year += century;
+        var year = century + yearOfCentury;
         if (day < 1 || day > DateTime.DaysInMonth(year, month))
         {
             return false;

@@ -88,10 +88,14 @@ public static class BgIban
     /// </summary>
     private static int CalculateMod97(ReadOnlySpan<char> iban)
     {
-        var remainder = 0;
-        for (var i = 0; i < iban.Length; i++)
+        var remainder = AppendMod97(0, iban[4..]);
+        return AppendMod97(remainder, iban[..4]);
+    }
+
+    private static int AppendMod97(int remainder, ReadOnlySpan<char> characters)
+    {
+        foreach (var c in characters)
         {
-            var c = iban[(i + 4) % iban.Length];
             remainder = char.IsAsciiDigit(c)
                 ? ((remainder * 10) + (c - '0')) % 97
                 : ((remainder * 100) + (c - 'A' + 10)) % 97;
