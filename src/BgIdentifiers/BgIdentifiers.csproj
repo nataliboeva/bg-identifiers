@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>Fast, allocation-free validation, parsing and test-data generation for Bulgarian identifiers: EGN, LNCh, EIK/BULSTAT, VAT numbers and IBANs. Includes DataAnnotations attributes.</Description>
+    <PackageTags>bulgaria;bulgarian;egn;lnch;eik;bulstat;vat;iban;validation;dataannotations</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
