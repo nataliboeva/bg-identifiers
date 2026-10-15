@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/BgIdentifiers.FluentValidation/BgIdentifiers.FluentValidation.csproj" />
     <Project Path="src/BgIdentifiers/BgIdentifiers.csproj" />
   </Folder>
   <Folder Name="/tests/">

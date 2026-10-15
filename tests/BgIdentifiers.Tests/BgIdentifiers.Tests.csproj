@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\BgIdentifiers\BgIdentifiers.csproj" />
+    <ProjectReference Include="..\..\src\BgIdentifiers.FluentValidation\BgIdentifiers.FluentValidation.csproj" />
   </ItemGroup>
 
 </Project>
