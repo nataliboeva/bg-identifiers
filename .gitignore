@@ -1,0 +1,26 @@
+# Build output
+bin/
+obj/
+artifacts/
+
+# Test and benchmark results
+TestResults/
+BenchmarkDotNet.Artifacts/
+*.trx
+coverage*.xml
+
+# Packages
+*.nupkg
+*.snupkg
+
+# IDEs and editors
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.DotSettings.user
+
+# OS
+.DS_Store
+Thumbs.db

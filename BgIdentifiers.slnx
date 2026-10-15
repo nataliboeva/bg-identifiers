@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/BgIdentifiers/BgIdentifiers.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/BgIdentifiers.Tests/BgIdentifiers.Tests.csproj" />
+  </Folder>
+</Solution>
